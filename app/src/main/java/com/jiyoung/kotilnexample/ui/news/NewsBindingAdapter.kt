@@ -12,8 +12,11 @@ public fun publishedAt(view : TextView, date : String){
 }
 
 @BindingAdapter("bind:urlToImage")
-public fun  urlToImage(view : ImageView, url : String) {
-    Glide.with(view.context)
-        .load(url)
-        .into(view)
+public fun  urlToImage(view : ImageView, url : String?) {
+    url?.let {
+        Glide.with(view.context)
+            .load(it)
+            .into(view)
+    }
 }
+

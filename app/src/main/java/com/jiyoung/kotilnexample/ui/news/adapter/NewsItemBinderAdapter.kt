@@ -1,0 +1,47 @@
+package com.jiyoung.kotilnexample.ui.news.adapter
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.jiyoung.kotilnexample.R
+import com.jiyoung.kotilnexample.server.model.NewsItemContent
+import com.jiyoung.kotilnexample.ui.Log
+import com.jiyoung.kotilnexample.ui.news.vh.NewsItemViewHolder
+import com.jiyoung.kotilnexample.ui.news.vm.NewsItemViewModel
+
+class NewsItemBinderAdapter : RecyclerView.Adapter<NewsItemViewHolder>() {
+    var titles :ArrayList<String> = arrayListOf()
+    var newsItems: ArrayList<NewsItemContent> = arrayListOf()
+
+    init {
+        Log.e("init")
+    }
+
+    fun set(titles : ArrayList<String>, newsItems : ArrayList<NewsItemContent>){
+        this.titles = titles
+        this.newsItems = newsItems
+        notifyDataSetChanged()
+    }
+
+    fun add(title : String, newsItems :NewsItemContent){
+        this.titles.add(title)
+        this.newsItems.add(newsItems)
+        notifyDataSetChanged()
+    }
+
+    fun clear(){
+        this.titles.clear()
+        this.newsItems.clear()
+    }
+
+    override fun getItemCount(): Int = newsItems.size
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsItemViewHolder {
+        return NewsItemViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_news_main, parent, false))
+    }
+
+    override fun onBindViewHolder(holder: NewsItemViewHolder, position: Int) {
+        holder.bind(titles[position], newsItems[position])
+    }
+}

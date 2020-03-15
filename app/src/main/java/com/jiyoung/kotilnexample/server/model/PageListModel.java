@@ -5,5 +5,5 @@ import java.util.List;
 public class PageListModel {
     public long id;
     public long totalResult;
-    public List<ItemModel> articles;
+    public List<NewsItemContent> articles;
 }
