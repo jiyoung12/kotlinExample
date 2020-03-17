@@ -1,26 +1,24 @@
 package com.jiyoung.kotilnexample.ui.news
 
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.jiyoung.kotilnexample.BR
 
 import com.jiyoung.kotilnexample.R
+import com.jiyoung.kotilnexample.databinding.FragmentNewsListBinding
+import com.jiyoung.kotilnexample.ui.Log
+import com.jiyoung.kotilnexample.ui.base.BaseFragment
+import com.jiyoung.kotilnexample.ui.news.vm.NewsListViewModel
 
 /**
  * A simple [Fragment] subclass.
  */
-class NewsListFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_news_list, container, false)
+class NewsListFragment : BaseFragment<FragmentNewsListBinding, NewsListViewModel>() {
+    override fun getLayoutId(): Int = R.layout.fragment_news_list
+    override fun getViewModel(): Class<NewsListViewModel> = NewsListViewModel::class.java
+    override fun getBindingVariable(): Int = BR.vm
+    override fun initObserver() {
+        Log.e("zzzzzzzz")
     }
-
 
 }
