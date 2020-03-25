@@ -3,13 +3,20 @@ package com.jiyoung.kotilnexample.ui.news.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.jiyoung.kotilnexample.R
 import com.jiyoung.kotilnexample.server.model.Article
 import com.jiyoung.kotilnexample.ui.news.vh.NewsListViewHolder
 
-class NewsListBinderAdapter : RecyclerView.Adapter<NewsListViewHolder>() {
-    var articles: List<Article> = emptyList()
+class NewsListBinderAdapter : PagedListAdapter<Article, NewsListViewHolder>(diffCallback) {
+    companion object {
+        val diffCallback = object : DiffUtil.ItemCallback<Article>(){
+            override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean = oldItem.title == newItem.title
+
+            override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean = oldItem == newItem
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsListViewHolder =
         NewsListViewHolder(
@@ -21,12 +28,9 @@ class NewsListBinderAdapter : RecyclerView.Adapter<NewsListViewHolder>() {
             )
         )
 
-    override fun getItemCount(): Int =
-        articles.size
-
     override fun onBindViewHolder(holder: NewsListViewHolder, position: Int) {
-        val model = articles[position]
-        holder.bind(model)
+        getItem(position)?.also {
+            holder.bind(it)
+        }
     }
-
 }

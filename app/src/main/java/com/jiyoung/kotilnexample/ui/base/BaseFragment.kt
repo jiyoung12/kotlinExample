@@ -25,9 +25,8 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel<*>> : Fragm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ViewModelProvider(this).get(NewsMainViewModel::class.java)
-        this.viewModel =
-            if (::viewModel.isInitialized) viewModel else ViewModelProvider(this).get(getViewModel())
+        this.viewModel = if (::viewModel.isInitialized) viewModel else ViewModelProvider(this).get(getViewModel())
+
     }
 
     override fun onCreateView(

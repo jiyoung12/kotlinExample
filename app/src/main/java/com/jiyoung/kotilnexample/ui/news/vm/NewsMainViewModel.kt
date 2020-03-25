@@ -47,6 +47,7 @@ class NewsMainViewModel(application: Application) : BaseViewModel<Any>(applicati
                 titles.add(it.first)
                 contents.add(it.second)
             },{
+                refresh.set(false)
                 it.printStackTrace()
             },{
                 refresh.set(false)

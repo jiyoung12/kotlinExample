@@ -25,7 +25,6 @@ class NewsItemViewModel : BaseItemViewModel<NewsItemContent, NewsListItemNavigat
     }
 
     fun seeAllClicked() {
-        Log.e("전체보기클릭 ${title.value}")
         title.value?.let {
             getNavigator().seeAllClicked(it)
         }

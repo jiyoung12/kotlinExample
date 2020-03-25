@@ -1,7 +1,7 @@
 package com.jiyoung.kotilnexample.server.model
 
 data class NewsItemContent(
-    var articles: List<Article>,
+    var articles: ArrayList<Article>,
     var status: String,
     var totalResults: Int
 )

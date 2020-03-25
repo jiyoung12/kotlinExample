@@ -24,7 +24,8 @@ class NewsMainFragment : BaseFragment<FragmentNewsBinding, NewsMainViewModel>() 
 
             newsItemAdapter.seeAllEvent.observe(this@NewsMainFragment, Observer {
                 Log.e("seeAllEvent $it")
-                findNavController().navigate(R.id.action_nav_news_to_newsListFragment)
+                val action = NewsMainFragmentDirections.actionNavNewsToNewsListFragment(it)
+                findNavController().navigate(action)
             })
 
             newsItemAdapter.detailEvent.observe(this@NewsMainFragment, Observer {
@@ -37,7 +38,7 @@ class NewsMainFragment : BaseFragment<FragmentNewsBinding, NewsMainViewModel>() 
         viewModel.onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
             with(viewModel) {
                 newsItemAdapter.clear()
-                viewModel.getNews(resources.getStringArray(R.array.query))
+                getNews(resources.getStringArray(R.array.query))
             }
         }
     }

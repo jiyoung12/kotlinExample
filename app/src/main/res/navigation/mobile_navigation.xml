@@ -16,9 +16,11 @@
         android:name="com.jiyoung.kotilnexample.ui.news.NewsMainFragment"
         android:label="@string/menu_news"
         tools:layout="@layout/fragment_news">
+
         <action
             android:id="@+id/action_nav_news_to_newsListFragment"
             app:destination="@id/newsListFragment" />
+
     </fragment>
 
     <fragment
@@ -47,6 +49,10 @@
     <fragment
         android:id="@+id/newsListFragment"
         android:name="com.jiyoung.kotilnexample.ui.news.NewsListFragment"
-        android:label="fragment_news_list"
-        tools:layout="@layout/fragment_news_list" />
+        android:label="{query}"
+        tools:layout="@layout/fragment_news_list">
+        <argument
+            android:name="query"
+            app:argType="string" />
+    </fragment>
 </navigation>
