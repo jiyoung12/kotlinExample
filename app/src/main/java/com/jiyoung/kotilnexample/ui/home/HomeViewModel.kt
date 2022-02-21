@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 class HomeViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "todd add ViewModel, liveData at NewFragment"
+        value = ""
     }
     val text: LiveData<String> = _text
 }

@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_nav_news_to_newsListFragment"
             app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_nav_news_to_newsContentFragment"
+            app:destination="@id/newsContentFragment" />
 
     </fragment>
 
@@ -54,5 +57,17 @@
         <argument
             android:name="query"
             app:argType="string" />
+        <action
+            android:id="@+id/action_newsListFragment_to_newsContentFragment"
+            app:destination="@id/newsContentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newsContentFragment"
+        android:name="com.jiyoung.kotilnexample.ui.news.NewsContentFragment"
+        android:label="NewsContentFragment" >
+        <argument
+            android:name="content"
+            app:argType="com.jiyoung.kotilnexample.server.model.Article"/>
     </fragment>
 </navigation>

@@ -30,26 +30,6 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(this, Observer {
             textView.text = it
         })
-        getAppKeyHash()
         return root
-    }
-
-    private fun getAppKeyHash() {
-        try {
-            val info = context?.getPackageManager()?.getPackageInfo(context?.getPackageName(), PackageManager.GET_SIGNATURES).let {
-                for (signature in it!!.signatures) {
-                    val md: MessageDigest
-                    md = MessageDigest.getInstance("SHA")
-                    md.update(signature.toByteArray())
-                    val something = String(Base64.encode(md.digest(), 0))
-                    Log.e(something)
-                }
-            }
-
-        } catch (e: Exception) {
-            // TODO Auto-generated catch block
-//            Log.e("name not found", e.toString())toString
-        }
-
     }
 }
