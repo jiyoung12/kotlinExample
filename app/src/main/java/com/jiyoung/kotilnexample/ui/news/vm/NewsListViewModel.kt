@@ -3,14 +3,22 @@ package com.jiyoung.kotilnexample.ui.news.vm
 import android.app.Application
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.jiyoung.kotilnexample.server.RetrofitFactory
 import com.jiyoung.kotilnexample.server.model.Article
+import com.jiyoung.kotilnexample.server.model.NewsItemContent
+import com.jiyoung.kotilnexample.ui.Log
+import com.jiyoung.kotilnexample.ui.base.BaseLiveEvent
 import com.jiyoung.kotilnexample.ui.base.BaseViewModel
 import com.jiyoung.kotilnexample.ui.news.adapter.NewsListBinderAdapter
+import com.jiyoung.kotilnexample.ui.news.ds.NewsListDataSource
 import com.jiyoung.kotilnexample.ui.news.ds.NewsListDataSourceFactory
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class NewsListViewModel(application: Application) : BaseViewModel<Any>(application) {
     var isRefresh = ObservableBoolean(false)
@@ -24,7 +32,6 @@ class NewsListViewModel(application: Application) : BaseViewModel<Any>(applicati
 
     var onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh.set(true)
-        // todo 물음표가 너무 많은거같아ㅠㅠ
         pageLiveData?.value?.dataSource?.invalidate()
 
     }
