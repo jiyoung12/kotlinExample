@@ -1,2 +1,4 @@
 include ':app'
 rootProject.name='KotilnExample'
+include ':domain'
+include ':data'

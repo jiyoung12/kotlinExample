@@ -13,7 +13,6 @@ import com.jiyoung.kotilnexample.ui.Log
 import com.jiyoung.kotilnexample.ui.base.BaseFragment
 import com.jiyoung.kotilnexample.ui.news.adapter.NewsListBinderAdapter
 import com.jiyoung.kotilnexample.ui.news.vm.NewsListViewModel
-import kotlinx.android.synthetic.main.fragment_news_list.*
 
 /**
  * A simple [Fragment] subclass.
@@ -29,7 +28,7 @@ class NewsListFragment : BaseFragment<FragmentNewsListBinding, NewsListViewModel
             query = args.query
 
             pageLiveData?.observe(this@NewsListFragment, Observer {
-                (rvNewsList.adapter as NewsListBinderAdapter).submitList(it)
+//                (rvNewsList.adapter as NewsListBinderAdapter).submitList(it)
                 isRefresh.set(false)
             })
         }

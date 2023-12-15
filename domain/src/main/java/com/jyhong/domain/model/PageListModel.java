@@ -1,4 +1,6 @@
-package com.jiyoung.kotilnexample.server.model;
+package com.jyhong.domain.model;
+
+import com.jiyoung.kotilnexample.server.model.NewsItemContent;
 
 import java.util.List;
 

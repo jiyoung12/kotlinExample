@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.jiyoung.kotilnexample.server.model.Article" />
+            type="com.jyhong.domain.model.Article" />
     </data>
 
     <androidx.cardview.widget.CardView
