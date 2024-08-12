@@ -1,12 +1,16 @@
-package com.jyhong.domain.model
+package com.jyhong.data.model
 
-data class Article(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class NetworkArticle(
     val author: String?,
     val content: String?,
     val description: String?,
     val publishedAt: String,
-    val source: Source?,
+    val source: NetworkSource?,
     val title: String,
     val url: String?,
     val urlToImage: String?
 )
+
