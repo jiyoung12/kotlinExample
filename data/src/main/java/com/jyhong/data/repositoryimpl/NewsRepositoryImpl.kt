@@ -1,36 +1,40 @@
 package com.jyhong.data.repositoryimpl
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.jyhong.data.GetEverythingPagingSource
 import com.jyhong.data.datasource.NewsNetworkDataSource
 import com.jyhong.data.mapper.toModel
 import com.jyhong.data.model.NetworkArticle
+import com.jyhong.domain.model.Article
+import com.jyhong.domain.model.Sort
 import com.jyhong.domain.repository.NewsRepository
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
     private val newsNetworkDataSource: NewsNetworkDataSource
-) :
-    NewsRepository {
+) : NewsRepository {
 
     override suspend fun getEverything(
         query: String?,
         searchIn: String?,
         from: String?,
         to: String?,
-        lang: String?,
-        sortBy: String?,
-        page: Long,
-        pageSize: Int
-    ) = flow {
-        emit(
-            newsNetworkDataSource.getEverything(
-                q = query,
-                apiKey = "1",
-                page = page,
-                pageSize = pageSize
-            ).map(NetworkArticle::toModel)
+        lang: String,
+        sortBy: Sort
+    ): Flow<PagingData<Article>> = Pager(PagingConfig(pageSize = 20)) {
+        GetEverythingPagingSource(
+            newsNetworkDataSource,
+            query = query,
+            searchIn = searchIn,
+            from = from,
+            to = to,
+            lang = lang,
+            sortBy = sortBy
         )
-    }
+    }.flow
 
     override suspend fun getTopHeadlines(
         country: String?,

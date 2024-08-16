@@ -1,5 +1,6 @@
 package com.jyhong.domain.usecase
 
+import com.jyhong.domain.model.Sort
 import com.jyhong.domain.repository.NewsRepository
 import javax.inject.Inject
 
@@ -10,18 +11,14 @@ class GetEverythingArticlesUseCase @Inject constructor(private val newsRepositor
         searchIn: String?,
         from: String?,
         to: String?,
-        lang: String?,
-        sortBy: String?,
-        page: Long,
-        pageSize: Int
+        lang: String,
+        sortBy: Sort
     ) = newsRepository.getEverything(
-        query = null,
-        searchIn = null,
-        from = "",
-        to = "",
-        lang = "",
-        sortBy = "",
-        page = 0,
-        pageSize = 20
+        query = query,
+        searchIn = searchIn,
+        from = from,
+        to = to,
+        lang = lang,
+        sortBy = sortBy
     )
 }

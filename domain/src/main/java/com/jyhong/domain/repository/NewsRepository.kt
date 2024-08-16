@@ -1,6 +1,8 @@
 package com.jyhong.domain.repository
 
+import androidx.paging.PagingData
 import com.jyhong.domain.model.Article
+import com.jyhong.domain.model.Sort
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
@@ -9,11 +11,9 @@ interface NewsRepository {
         searchIn: String?,
         from: String?,
         to: String?,
-        lang: String?,
-        sortBy: String?,
-        page: Long,
-        pageSize: Int
-    ): Flow<List<Article>>
+        lang: String,
+        sortBy: Sort,
+    ): Flow<PagingData<Article>>
 
     suspend fun getSource(
         category: String,
@@ -21,10 +21,9 @@ interface NewsRepository {
         country: String
     )
 
-
     suspend fun getTopHeadlines(
         country: String?,
-        language : String?,
+        language: String?,
         category: String?,
         source: String?,
         query: String?,

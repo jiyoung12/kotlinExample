@@ -3,52 +3,59 @@ package com.jiyoung.kotilnexample.search
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jiyoung.kotilnexample.common.result.Result
-import com.jiyoung.kotilnexample.common.result.asResult
-import com.jyhong.domain.model.Article
+import com.jiyoung.kotilnexample.common.DeviceManager
+import com.jyhong.domain.model.Sort
 import com.jyhong.domain.usecase.GetEverythingArticlesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    getEverythingArticlesUseCase: GetEverythingArticlesUseCase
+    private val savedStateHandle: SavedStateHandle,
+    getEverythingArticlesUseCase: GetEverythingArticlesUseCase,
+    deviceManager: DeviceManager
 ) : ViewModel() {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val uiState = savedStateHandle.getStateFlow<String?>(QUERY, "")
-        .flatMapLatest {
-            getEverythingArticlesUseCase.invoke(
-                query = it,
-                searchIn = null,
-                from = null,
-                to = null,
-                lang = null,
-                sortBy = null,
-                page = 0,
-                pageSize = 20
-            )
-        }.asResult()
-        .map {
-            when (it) {
-                is Result.Error -> SearchUiState.Error
-                Result.Loading -> SearchUiState.Loading
-                is Result.Success -> SearchUiState.Success("", it.data)
-            }
-        }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000L), SearchUiState.Loading)
+    val uiState = combine(
+        savedStateHandle.getStateFlow<String?>(QUERY, null),
+        savedStateHandle.getStateFlow(SORT, Sort.publishedAt)
+    ) { query, sort ->
+        SearchUiState(
+            query = query,
+            sortBy = sort
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000L), SearchUiState())
 
-    sealed class SearchUiState {
-        data object Loading : SearchUiState()
-        data class Success(val keyword: String, val articles: List<Article>) : SearchUiState()
-        data object Error : SearchUiState()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val articles = uiState.flatMapLatest {
+        getEverythingArticlesUseCase.invoke(
+            query = it.query,
+            searchIn = null,
+            from = null,
+            to = null,
+            lang = deviceManager.getLanguageCode(),
+            sortBy = it.sortBy,
+        )
     }
+
+    fun saveSearchQuery(query: String) {
+        savedStateHandle[QUERY] = query
+    }
+
+    fun saveSearchSortBy(sortBy: Sort) {
+        savedStateHandle[SORT] = sortBy
+    }
+
+    data class SearchUiState(
+        val query: String? = "",
+        val sortBy: Sort = Sort.publishedAt,
+    )
 }
 
 const val QUERY = "query"
+const val SORT = "sort"

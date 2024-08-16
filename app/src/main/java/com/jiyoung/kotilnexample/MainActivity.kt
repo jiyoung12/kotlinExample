@@ -9,7 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.jiyoung.kotilnexample.explorer.EXPLORER_ROUTE
 import com.jiyoung.kotilnexample.explorer.ExplorerRoute
+import com.jiyoung.kotilnexample.search.SEARCH_ROUTE
+import com.jiyoung.kotilnexample.search.SearchRoute
+import com.jiyoung.kotilnexample.search.navigateToSearch
 import com.jiyoung.kotilnexample.ui.NewsBackground
 import com.jiyoung.kotilnexample.ui.NewsTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,13 +26,19 @@ class MainActivity : ComponentActivity() {
             NewsTheme {
                 NewsBackground {
                     Scaffold { paddingValues ->
+                        val navController = rememberNavController()
                         NavHost(
-                            navController = rememberNavController(),
-                            startDestination = "main",
+                            navController = navController,
+                            startDestination = EXPLORER_ROUTE,
                             modifier = Modifier.padding(paddingValues),
                         ) {
-                            composable("main") {
-                                ExplorerRoute()
+                            composable(EXPLORER_ROUTE) {
+                                ExplorerRoute(
+                                    moveToSearchScreen = navController::navigateToSearch
+                                )
+                            }
+                            composable(SEARCH_ROUTE) {
+                                SearchRoute()
                             }
                         }
                     }

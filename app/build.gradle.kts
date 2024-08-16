@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":data"))
 
     implementation("com.google.dagger:hilt-android:2.48")
+    implementation("androidx.paging:paging-compose-android:3.3.2")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     testImplementation("junit:junit:4.12")

@@ -5,6 +5,7 @@ import com.jyhong.data.BuildConfig
 import com.jyhong.data.datasource.NewsNetworkDataSource
 import com.jyhong.data.model.NetworkArticle
 import com.jyhong.data.model.NetworkSource
+import com.jyhong.domain.model.Sort
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.Call
@@ -67,15 +68,6 @@ class NewsNetwork @Inject constructor(
         .build()
         .create(NewsNetworkApi::class.java)
 
-    override suspend fun getEverything(
-        q: String?,
-        apiKey: String,
-        page: Long,
-        pageSize: Int
-    ): List<NetworkArticle> {
-        return networkApi.getEverything(q, apiKey, page, pageSize).articles
-    }
-
     override suspend fun getTopHeadlines(
         country: String?,
         language: String?,
@@ -99,6 +91,24 @@ class NewsNetwork @Inject constructor(
 
     override suspend fun getSource(): List<Any> {
         return networkApi.getSource().sources
+    }
+
+    override suspend fun getEverything(
+        query: String?,
+        searchIn: String?,
+        from: String?,
+        to: String?,
+        lang: String?,
+        sortBy: Sort,
+        page: Long,
+        pageSize: Int
+    ): List<NetworkArticle> {
+        return networkApi.getEverything(
+            q = query,
+            apiKey = BuildConfig.API_KEY,
+            page = page,
+            pageSize = pageSize
+        ).articles
     }
 }
 
